@@ -9,6 +9,11 @@ const cellGap = 3
 const gameGrid = []
 const defenders =[]
 let numberOfResources =300
+const enemies =[]
+const enemyPositions =[]
+let enemiesInterval=600
+let frame =0
+let gameOver = false
 
 // mouse
 const mouse = {
@@ -64,6 +69,7 @@ function handleGameGrid(){
         gameGrid[i].draw()
 }
 // projectiles
+
 // defenders
 class Defender{
     constructor(x,y){
@@ -80,7 +86,7 @@ class Defender{
         ctx.fillStyle="blue",
         ctx.fillRect(this.x,this.y,this.width,this.height)
         ctx.fillStyle="gold",
-        ctx.font="30px arial"
+        ctx.font="30px orbitron"
         ctx.fillText(Math.floor(this.health),this.x+20,this.y+40)
     }
 }
@@ -104,14 +110,62 @@ function handleDefenders(){
         defenders[i].draw()
 }
 
+// Enemies
+
+class Enemy{
+    constructor(verticalPosition){
+        this.x=canvas.width
+        this.y=verticalPosition
+        this.width=cellSize
+        this.height=cellSize
+        this.speed= Math.random()*0.2 + 0.4
+        this.movement = this.speed
+        this.health=100
+        this.maxHealth = this.heath
+    }
+    update(){
+        this.x-=this.movement
+    }
+    draw(){
+        ctx.fillStyle="red",
+        ctx.fillRect(this.x,this.y,this.width,this.height)
+        ctx.fillStyle="black"
+        ctx.font="30px orbitron"
+        ctx.fillText(Math.floor(this.health),this.x+20,this.y+40)
+    }
+}
+
+function handleEnemies(){
+    for(let i=0;i<enemies.length;i++)
+    {
+        enemies[i].update()
+        enemies[i].draw()
+        if(enemies[i].x<0)
+           gameOver=true
+    }
+    if(frame % enemiesInterval ==0){
+        let verticalPosition = Math.floor(Math.random() * 5 + 1)* cellSize
+        enemies.push(new Enemy(verticalPosition))
+        enemyPositions.push(verticalPosition)
+        if(enemiesInterval>=120)
+           enemiesInterval-=50
+    }
+}
+
 // resources
 
 // utility functions
 
 function handleGameStatus(){
     ctx.fillStyle = "white"
-    ctx.font = "30px Arial"
+    ctx.font = "30px Orbitron"
     ctx.fillText("Resources: " + numberOfResources, 20,55)
+    if(gameOver)
+    {
+        ctx.fillStyle = "black"
+        ctx.font = "90px Orbitron"
+        ctx.fillText("GAME OVER", 135,330)
+    }
 }
 
 function animate(){
@@ -120,8 +174,11 @@ function animate(){
     ctx.fillRect(0,0,controlsBar.width,controlsBar.height)
     handleGameGrid()
     handleDefenders()
+    handleEnemies()
     handleGameStatus()
-    requestAnimationFrame(animate)
+    frame++
+    if(!gameOver) 
+       requestAnimationFrame(animate)
 }
 
 animate()
