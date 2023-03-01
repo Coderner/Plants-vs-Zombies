@@ -14,6 +14,8 @@ const enemyPositions =[]
 let enemiesInterval=600
 let frame =0
 let gameOver = false
+const projectiles =[]
+let score =0
 
 // mouse
 const mouse = {
@@ -68,7 +70,49 @@ function handleGameGrid(){
     for(let i=0;i<gameGrid.length;i++)
         gameGrid[i].draw()
 }
+
 // projectiles
+
+class Projectile{
+    constructor(x,y){
+        this.x=x
+        this.y=y
+        this.width=10
+        this.height=10
+        this.power=20
+        this.speed=5
+    }
+    update(){
+        this.x += this.speed
+    }
+    draw(){
+        ctx.fillStyle="black",
+        ctx.beginPath()
+        ctx.arc(this.x, this.y, this.width, 0, Math.PI*2)
+        ctx.fill()
+    }
+}
+
+function handleProjectiles(){
+    for(let i=0;i<projectiles.length;i++)
+        {
+            projectiles[i].update()
+            projectiles[i].draw()
+
+            for(let j=0; j< enemies.length; j++){
+                if(enemies[j] && projectiles[i] && collision(enemies[j],projectiles[i])){
+                    enemies[j].health -= projectiles[i].power
+                    projectiles.splice(i,1)
+                    i--
+                }
+            }
+
+            if(projectiles[i] && projectiles[i].x > canvas.width-cellSize){
+                projectiles.splice(i,1)
+                i--
+            }
+        }
+}
 
 // defenders
 class Defender{
@@ -89,6 +133,12 @@ class Defender{
         ctx.font="30px orbitron"
         ctx.fillText(Math.floor(this.health),this.x+20,this.y+40)
     }
+    update(){
+        this.timer++
+        if(this.timer%100 === 0){
+            projectiles.push(new Projectile(this.x+70,this.y+60))
+        }
+    }
 }
 
 canvas.addEventListener("click",function(){
@@ -108,8 +158,9 @@ canvas.addEventListener("click",function(){
 function handleDefenders(){
     for(let i=0;i<defenders.length;i++){
         defenders[i].draw()
-        for(let j=0;j<enemies.length;j++)
-            if(collision(defenders[i],enemies[j])){
+        defenders[i].update()
+        for(let j=0;j<enemies.length;j++){
+            if(defenders[i] && collision(defenders[i],enemies[j])){
                 enemies[j].movement=0
                 defenders[i].health -= 0.2
             }
@@ -118,6 +169,7 @@ function handleDefenders(){
                 i--
                 enemies[j].movement=enemies[j].speed
             }
+        }
     }
 }
 
@@ -132,7 +184,7 @@ class Enemy{
         this.speed= Math.random()*0.2 + 0.4
         this.movement = this.speed
         this.health=100
-        this.maxHealth = this.heath
+        this.maxHealth = this.health
     }
     update(){
         this.x-=this.movement
@@ -153,6 +205,14 @@ function handleEnemies(){
         enemies[i].draw()
         if(enemies[i].x<0)
            gameOver=true
+        if(enemies[i].health <=0)
+           {
+            let gainedResources = enemies[i].maxHealth/10
+            numberOfResources += gainedResources
+            score+= gainedResources
+            enemies.splice(i,1)
+            i--
+           }
     }
     if(frame % enemiesInterval ==0){
         let verticalPosition = Math.floor(Math.random() * 5 + 1)* cellSize
@@ -170,7 +230,8 @@ function handleEnemies(){
 function handleGameStatus(){
     ctx.fillStyle = "white"
     ctx.font = "30px Orbitron"
-    ctx.fillText("Resources: " + numberOfResources, 20,55)
+    ctx.fillText("Score: " + score, 20,40)
+    ctx.fillText("Resources: " + numberOfResources, 20,80)
     if(gameOver)
     {
         ctx.fillStyle = "black"
@@ -185,6 +246,7 @@ function animate(){
     ctx.fillRect(0,0,controlsBar.width,controlsBar.height)
     handleGameGrid()
     handleDefenders()
+    handleProjectiles()
     handleEnemies()
     handleGameStatus()
     frame++
