@@ -134,9 +134,13 @@ class Defender{
         ctx.fillText(Math.floor(this.health),this.x+20,this.y+40)
     }
     update(){
-        this.timer++
-        if(this.timer%100 === 0){
-            projectiles.push(new Projectile(this.x+70,this.y+60))
+        if(this.shooting){
+            this.timer++
+            if(this.timer%100 === 0){
+                projectiles.push(new Projectile(this.x+70,this.y+60))
+            }
+        }else{
+            this.timer=0;
         }
     }
 }
@@ -159,6 +163,11 @@ function handleDefenders(){
     for(let i=0;i<defenders.length;i++){
         defenders[i].draw()
         defenders[i].update()
+        if(enemyPositions.indexOf(defenders[i].y)!==-1){
+            defenders[i].shooting = true
+        }else{
+            defenders[i].shooting = false
+        }
         for(let j=0;j<enemies.length;j++){
             if(defenders[i] && collision(defenders[i],enemies[j])){
                 enemies[j].movement=0
@@ -210,6 +219,8 @@ function handleEnemies(){
             let gainedResources = enemies[i].maxHealth/10
             numberOfResources += gainedResources
             score+= gainedResources
+            const findThisIndex = enemyPositions.indexOf(enemies[i].y)
+            enemyPositions.splice(findThisIndex,1)
             enemies.splice(i,1)
             i--
            }
