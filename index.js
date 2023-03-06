@@ -284,6 +284,14 @@ function handleGameStatus(){
         ctx.font = "90px Orbitron"
         ctx.fillText("GAME OVER", 135,330)
     }
+    if(score> winningScore && enemies.length===0)
+    {
+        ctx.fillStyle = "black"
+        ctx.font = "60px Orbitron"
+        ctx.fillText("Level Complete", 140,300)
+        ctx.font = "30px Orbitron"
+        ctx.fillText("You win with "+score+" point!", 144,340)
+    }
 }
 
 function animate(){
