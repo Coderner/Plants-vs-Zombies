@@ -284,7 +284,7 @@ function handleGameStatus(){
         ctx.font = "90px Orbitron"
         ctx.fillText("GAME OVER", 135,330)
     }
-    if(score> winningScore && enemies.length===0)
+    if(score>= winningScore && enemies.length===0)
     {
         ctx.fillStyle = "black"
         ctx.font = "60px Orbitron"
@@ -318,3 +318,7 @@ function collision(first,second){
           second.y > first.y+first.height))
           return true
 }
+
+window.addEventListener("resize",function(){
+    canvasPosition = canvas.getBoundingClientRect()
+})
