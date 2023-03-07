@@ -250,10 +250,10 @@ class Enemy{
         }
     }
     draw(){
-        ctx.fillStyle="red",
-        ctx.fillRect(this.x,this.y,this.width,this.height)
+        // ctx.fillStyle="red",
+        // ctx.fillRect(this.x,this.y,this.width,this.height)
         ctx.fillStyle="black"
-        ctx.font="30px orbitron"
+        ctx.font="12px orbitron"
         ctx.fillText(Math.floor(this.health),this.x+20,this.y+40)
         ctx.drawImage(this.enemyType,this.frameX*this.spriteWidth,0, this.spriteWidth, this.spriteHeight,
             this.x, this.y, this.width, this.height)
