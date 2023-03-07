@@ -67,7 +67,7 @@ class Cell {
     }
     draw(){
         if(mouse.x && mouse.y && collision(this, mouse)){
-            ctx.strokeStyle = "black"
+            ctx.strokeStyle = "pink"
             ctx.strokeRect(this.x,this.y,this.width,this.height)
         }
     }
@@ -173,7 +173,7 @@ class Defender{
         // ctx.fillStyle="blue",
         // ctx.fillRect(this.x,this.y,this.width,this.height)
         ctx.fillStyle="gold",
-        ctx.font="12px orbitron"
+        ctx.font="16px orbitron"
         ctx.fillText(Math.floor(this.health),this.x+60,this.y+20)
         if(this.chosenDefender===1){
             ctx.drawImage(defender1, this.frameX*this.spriteWidth, 0,
@@ -357,9 +357,9 @@ class Enemy{
     draw(){
         // ctx.fillStyle="red",
         // ctx.fillRect(this.x,this.y,this.width,this.height)
-        ctx.fillStyle="black"
-        ctx.font="12px orbitron"
-        ctx.fillText(Math.floor(this.health),this.x+20,this.y+40)
+        ctx.fillStyle="gold"
+        ctx.font="16px orbitron"
+        ctx.fillText(Math.floor(this.health),this.x+10,this.y+20)
         ctx.drawImage(this.enemyType,this.frameX*this.spriteWidth,0, this.spriteWidth, this.spriteHeight,
             this.x, this.y, this.width, this.height)
     }
@@ -376,7 +376,7 @@ function handleEnemies(){
         if(enemies[i].health <=0){
             let gainedResources = enemies[i].maxHealth/10
             floatingMessages.push(new floatingMessage("+"+gainedResources,enemies[i].x, enemies[i].y,30,"black"))
-            floatingMessages.push(new floatingMessage("+"+gainedResources,800, 50,30,"gold"))
+            floatingMessages.push(new floatingMessage("+"+gainedResources,800, 50,30,"black"))
             numberOfResources += gainedResources
             score+= gainedResources
             const findThisIndex = enemyPositions.indexOf(enemies[i].y)
@@ -425,7 +425,7 @@ function handleResources(){
                floatingMessages.push(new floatingMessage("+"+resources[i].amount,
                 resources[i].x, resources[i].y,30,"black"))
                floatingMessages.push(new floatingMessage("+"+resources[i].amount,
-                800, 50,30,"gold"))
+                800, 50,30,"black"))
                resources.splice(i,1)
                i--
         }
@@ -435,7 +435,7 @@ function handleResources(){
 // utility functions
 
 function handleGameStatus(){
-    ctx.fillStyle = "white"
+    ctx.fillStyle = "black"
     ctx.font = "30px Orbitron"
     ctx.fillText("Score: " + score, 550,40)
     ctx.fillText("Resources: " + numberOfResources, 550,80)
@@ -474,7 +474,7 @@ canvas.addEventListener("click",function(){
 
 function animate(){
     ctx.clearRect(0,0,canvas.width,canvas.height)
-    ctx.fillStyle = "blue"
+    ctx.fillStyle = "#febb9e"
     ctx.fillRect(0,0,controlsBar.width,controlsBar.height)
     handleGameGrid()
     handleResources()
