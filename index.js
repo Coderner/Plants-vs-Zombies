@@ -325,7 +325,7 @@ function handleEnemies(){
         if(enemies[i].health <=0){
             let gainedResources = enemies[i].maxHealth/10
             floatingMessages.push(new floatingMessage("+"+gainedResources,enemies[i].x, enemies[i].y,30,"black"))
-            floatingMessages.push(new floatingMessage("+"+gainedResources,250, 50,30,"gold"))
+            floatingMessages.push(new floatingMessage("+"+gainedResources,800, 50,30,"gold"))
             numberOfResources += gainedResources
             score+= gainedResources
             const findThisIndex = enemyPositions.indexOf(enemies[i].y)
@@ -374,7 +374,7 @@ function handleResources(){
                floatingMessages.push(new floatingMessage("+"+resources[i].amount,
                 resources[i].x, resources[i].y,30,"black"))
                floatingMessages.push(new floatingMessage("+"+resources[i].amount,
-                250, 50,30,"gold"))
+                800, 50,30,"gold"))
                resources.splice(i,1)
                i--
         }
