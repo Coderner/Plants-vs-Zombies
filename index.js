@@ -87,23 +87,38 @@ function handleGameGrid(){
 
 // projectiles
 
+const projectileImg = new Image()
+projectileImg.src = "./Images/projectile.png"
+
 class Projectile{
     constructor(x,y){
         this.x=x
         this.y=y
-        this.width=10
-        this.height=10
+        this.width=25
+        this.height=25
         this.power=20
         this.speed=5
+        this.frameX =0 
+        this.frameY =0
+        this.spriteWidth=24
+        this.spriteHeight=24
+        this.minFrame=0
+        this.maxFrame=4
     }
     update(){
         this.x += this.speed
+        if(frame%5===0){
+            if(this.frameX < this.maxFrame)this.frameX++
+            else this.frameX = this.minFrame
+        }
     }
     draw(){
-        ctx.fillStyle="black",
-        ctx.beginPath()
-        ctx.arc(this.x, this.y, this.width, 0, Math.PI*2)
+        // ctx.fillStyle="black",
+        // ctx.beginPath()
+        // ctx.arc(this.x, this.y, this.width, 0, Math.PI*2)
         ctx.fill()
+        ctx.drawImage(projectileImg, this.frameX*this.spriteWidth, 0,
+            this.spriteWidth, this.spriteHeight, this.x,this.y-7,this.width, this.height )
     }
 }
 
