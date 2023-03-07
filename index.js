@@ -119,13 +119,10 @@ function handleProjectiles(){
 
 // defenders
 
-const defenderTypes = []
 const defender1 = new Image()
 defender1.src ="./Images/defender1.png"
-defenderTypes.push(defender1)
 const defender2 = new Image()
 defender2.src = "./Images/defender2.png"
-defenderTypes.push(defender2)
 
 class Defender{
     constructor(x,y){
@@ -200,6 +197,33 @@ function handleDefenders(){
             }
         }
     }
+}
+
+const card1 = {
+    x:30,
+    y:7,
+    width:70,
+    height:85
+}
+const card2 = {
+    x:110,
+    y:7,
+    width:70,
+    height:85
+}
+function chooseDefender(){
+   let card1stroke="gold"
+   let card2stroke="black" 
+   ctx.lineWidth =1
+   ctx.fillStyle ="rgba(0,0,0,0.2)"
+   ctx.fillRect(card1.x, card1.y, card1.width,card1.height)
+   ctx.strokeStyle= card1stroke
+   ctx.strokeRect(card1.x,card1.y, card1.width,card1.height)
+   ctx.drawImage(defender1,0,0,128,128,30,12,128/2,128/2)
+   ctx.fillRect(card2.x, card2.y, card2.width,card2.height)
+   ctx.drawImage(defender2,0,0,128,128,110,12,128/2,128/2)
+   ctx.strokeStyle= card2stroke
+   ctx.strokeRect(card2.x,card2.y, card2.width,card2.height)
 }
 // floating messages
 
@@ -362,8 +386,8 @@ function handleResources(){
 function handleGameStatus(){
     ctx.fillStyle = "white"
     ctx.font = "30px Orbitron"
-    ctx.fillText("Score: " + score, 20,40)
-    ctx.fillText("Resources: " + numberOfResources, 20,80)
+    ctx.fillText("Score: " + score, 550,40)
+    ctx.fillText("Resources: " + numberOfResources, 550,80)
     if(gameOver)
     {
         ctx.fillStyle = "black"
@@ -406,6 +430,7 @@ function animate(){
     handleDefenders()
     handleProjectiles()
     handleEnemies()
+    chooseDefender()
     handleGameStatus()
     handleFloatingMessages()
     frame++
