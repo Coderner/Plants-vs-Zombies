@@ -161,6 +161,16 @@ class Defender{
                 if(this.frameX===8)
                   this.shootNow=true
             }
+
+            if(this.shooting){
+                this.minFrame=0
+                this.maxFrame=12
+            }
+            else{
+                this.minFrame=0
+                this.maxFrame=0
+            }
+
             if(this.shooting && this.shootNow){
                     projectiles.push(new Projectile(this.x+70,this.y+38))
                     this.shootNow=false
