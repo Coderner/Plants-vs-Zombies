@@ -152,6 +152,7 @@ class Defender{
         this.spriteHeight=128
         this.minFrame=0
         this.maxFrame=12
+        this.chosenDefender=chosenDefender
     }
     draw(){
         // ctx.fillStyle="blue",
@@ -159,10 +160,10 @@ class Defender{
         ctx.fillStyle="gold",
         ctx.font="12px orbitron"
         ctx.fillText(Math.floor(this.health),this.x+60,this.y+20)
-        if(chosenDefender===1){
+        if(this.chosenDefender===1){
             ctx.drawImage(defender1, this.frameX*this.spriteWidth, 0,
                 this.spriteWidth, this.spriteHeight, this.x,this.y,this.width, this.height )
-        }else if(chosenDefender===2){
+        }else if(this.chosenDefender===2){
             ctx.drawImage(defender2, this.frameX*this.spriteWidth, 0,
                 this.spriteWidth, this.spriteHeight, this.x,this.y,this.width, this.height )
         }
