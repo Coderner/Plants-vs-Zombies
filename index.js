@@ -213,6 +213,16 @@ function handleFloatingMessages(){
 
 
 // Enemies
+const enemyTypes = []
+const enemy1 = new Image()
+enemy1.src = "./Images/enemy1.png"
+enemyTypes.push(enemy1)
+const enemy2 = new Image()
+enemy2.src = "./Images/enemy2.png"
+enemyTypes.push(enemy2)
+const enemy3 = new Image()
+enemy3.src = "./Images/enemy3.png"
+
 
 class Enemy{
     constructor(verticalPosition){
@@ -224,9 +234,20 @@ class Enemy{
         this.movement = this.speed
         this.health=100
         this.maxHealth = this.health
+        this.enemyType = enemyTypes[Math.floor(Math.random()*enemyTypes.length)]
+        this.frameX = 0
+        this.frameY = 0
+        this.minFrame = 0
+        this.maxFrame = 4
+        this.spriteWidth = 128 
+        this.spriteHeight = 128
     }
     update(){
         this.x-=this.movement
+        if(frame%10===0){
+            if(this.frameX< this.maxFrame) this.frameX++
+            else this.frameX = this.minFrame
+        }
     }
     draw(){
         ctx.fillStyle="red",
@@ -234,6 +255,8 @@ class Enemy{
         ctx.fillStyle="black"
         ctx.font="30px orbitron"
         ctx.fillText(Math.floor(this.health),this.x+20,this.y+40)
+        ctx.drawImage(this.enemyType,this.frameX*this.spriteWidth,0, this.spriteWidth, this.spriteHeight,
+            this.x, this.y, this.width, this.height)
     }
 }
 
