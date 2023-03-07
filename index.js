@@ -131,9 +131,10 @@ class Defender{
     constructor(x,y){
         this.x=x,
         this.y=y,
-        this.width=cellSize - cellGap * 2,
-        this.height=cellSize - cellGap * 2,
-        this.shooting= false,
+        this.width=cellSize - cellGap * 2
+        this.height=cellSize - cellGap * 2
+        this.shooting= false
+        this.shootNow= false
         this.health=100,
         this.projectiles =[]
         this.timer=0
@@ -154,18 +155,16 @@ class Defender{
             this.spriteWidth, this.spriteHeight, this.x,this.y,this.width, this.height )
     }
     update(){
-            if(frame%8===0){
+            if(frame%5===0){
                 if(this.frameX < this.maxFrame)this.frameX++
                 else this.frameX = this.minFrame
+                if(this.frameX===8)
+                  this.shootNow=true
             }
-            if(this.shooting){
-                this.timer++
-                if(this.timer%100 === 0){
-                    projectiles.push(new Projectile(this.x+70,this.y+60))
+            if(this.shooting && this.shootNow){
+                    projectiles.push(new Projectile(this.x+70,this.y+38))
+                    this.shootNow=false
                 }
-            }else{
-                this.timer=0
-            }
     }
 }
 
