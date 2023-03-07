@@ -118,6 +118,15 @@ function handleProjectiles(){
 }
 
 // defenders
+
+const defenderTypes = []
+const defender1 = new Image()
+defender1.src ="./Images/defender1.png"
+defenderTypes.push(defender1)
+const defender2 = new Image()
+defender2.src = "./Images/defender2.png"
+defenderTypes.push(defender2)
+
 class Defender{
     constructor(x,y){
         this.x=x,
@@ -128,15 +137,27 @@ class Defender{
         this.health=100,
         this.projectiles =[]
         this.timer=0
+        this.frameX =0 
+        this.frameY =0
+        this.spriteWidth=128
+        this.spriteHeight=128
+        this.minFrame=0
+        this.maxFrame=12
     }
     draw(){
-        ctx.fillStyle="blue",
-        ctx.fillRect(this.x,this.y,this.width,this.height)
+        // ctx.fillStyle="blue",
+        // ctx.fillRect(this.x,this.y,this.width,this.height)
         ctx.fillStyle="gold",
-        ctx.font="30px orbitron"
-        ctx.fillText(Math.floor(this.health),this.x+20,this.y+40)
+        ctx.font="12px orbitron"
+        ctx.fillText(Math.floor(this.health),this.x+60,this.y+20)
+        ctx.drawImage(defender1, this.frameX*this.spriteWidth, 0,
+            this.spriteWidth, this.spriteHeight, this.x,this.y,this.width, this.height )
     }
     update(){
+            if(frame%8===0){
+                if(this.frameX < this.maxFrame)this.frameX++
+                else this.frameX = this.minFrame
+            }
             if(this.shooting){
                 this.timer++
                 if(this.timer%100 === 0){
