@@ -18,6 +18,7 @@ const projectiles =[]
 let score =0
 let resources =[]
 let winningScore=50
+let chosenDefender=1
 let floatingMessages = []
 
 // mouse
@@ -25,8 +26,18 @@ const mouse = {
     x: 10,
     y: 10,
     width:0.1,
-    height:0.1
+    height:0.1,
+    clicked:false
 }
+
+canvas.addEventListener("mousedown",function(){
+   mouse.clicked = true
+})
+
+canvas.addEventListener("mouseup",function(){
+    mouse.clicked = false
+ })
+
 
 let canvasPosition = canvas.getBoundingClientRect()
 
@@ -137,7 +148,7 @@ class Defender{
         this.timer=0
         this.frameX =0 
         this.frameY =0
-        this.spriteWidth=128
+        this.spriteWidth=130
         this.spriteHeight=128
         this.minFrame=0
         this.maxFrame=12
@@ -148,8 +159,14 @@ class Defender{
         ctx.fillStyle="gold",
         ctx.font="12px orbitron"
         ctx.fillText(Math.floor(this.health),this.x+60,this.y+20)
-        ctx.drawImage(defender1, this.frameX*this.spriteWidth, 0,
-            this.spriteWidth, this.spriteHeight, this.x,this.y,this.width, this.height )
+        if(chosenDefender===1){
+            ctx.drawImage(defender1, this.frameX*this.spriteWidth, 0,
+                this.spriteWidth, this.spriteHeight, this.x,this.y,this.width, this.height )
+        }else if(chosenDefender===2){
+            ctx.drawImage(defender2, this.frameX*this.spriteWidth, 0,
+                this.spriteWidth, this.spriteHeight, this.x,this.y,this.width, this.height )
+        }
+       
     }
     update(){
             if(frame%5===0){
@@ -211,9 +228,27 @@ const card2 = {
     width:70,
     height:85
 }
+    
 function chooseDefender(){
-   let card1stroke="gold"
+   let card1stroke="black"
    let card2stroke="black" 
+
+   if(collision(mouse,card1) && mouse.clicked)
+      chosenDefender=1
+   else if(collision(mouse,card2) && mouse.clicked)
+      chosenDefender=2
+
+   if(chosenDefender===1){
+        card1stroke="gold"
+        card2stroke="black"
+    }else if(chosenDefender===2){
+        card1stroke="black"
+        card2stroke="gold"
+    }else{
+        card1stroke="black"
+        card2stroke="black"
+     }
+
    ctx.lineWidth =1
    ctx.fillStyle ="rgba(0,0,0,0.2)"
    ctx.fillRect(card1.x, card1.y, card1.width,card1.height)
